@@ -1,21 +1,21 @@
-const express = require('express');
-const router = express.Router();
-const nodemailer = require('nodemailer');
-const moment = require('moment');
-moment.locale('es');
+const express = require('express')
+const router = express.Router()
+const nodemailer = require('nodemailer')
+const moment = require('moment')
+moment.locale('es')
 
 let transporter = nodemailer.createTransport({
-  host:"smtp.gmail.com",
+  host: 'smtp.gmail.com',
   port: 465,
   secure: true,
   auth: {
     user: 'telsat.clientes@gmail.com',
     pass: 'Telsatco12344321'
   }
-});
+})
 
 router.post('/', (req, res) => {
-  let message = req.body;
+  let message = req.body
   let htmlAux = `  
     <header>
       <h1 style="text-align: center; color: black;">${message.company}</h1>
@@ -42,23 +42,23 @@ router.post('/', (req, res) => {
       <div style="text-align: center; color: black;">
         <time>${moment().locale(false).format('dddd, MMMM Do YYYY, h:mm:ss a')}<time>
       </div>
-    </footer>`;
-  
+    </footer>`
+
   let mailOptions = {
     from: '"Clientes" <telsat.clientes@gmail.com>',
     to: 'telsat.ingenieria@gmail.com',
     subject: 'Client request for information',
     text: `hola`,
-  html: htmlAux
-  };
+    html: htmlAux
+  }
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       return console.log(error)
     }
     console.log('Message %s sent: %s', info.messageId, info.response)
-  })    
-  res.redirect('/');
+  })
+  res.redirect('/')
 })
 
-module.exports = router;
+module.exports = router
