@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const nodemailer = require('nodemailer')
 const moment = require('moment')
+const config = require('../config.js')
 moment.locale('es')
 
 let transporter = nodemailer.createTransport({
@@ -9,8 +10,8 @@ let transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: 'telsat.clientes@gmail.com',
-    pass: 'Telsatco12344321'
+    user: config.emailUser,
+    pass: config.pass
   }
 })
 
@@ -45,8 +46,8 @@ router.post('/', (req, res) => {
     </footer>`
 
   let mailOptions = {
-    from: '"Clientes" <telsat.clientes@gmail.com>',
-    to: 'telsat.ingenieria@gmail.com',
+    from: `"Clientes" <${config.emailUser}>`,
+    to: config.email,
     subject: 'Client request for information',
     text: `hola`,
     html: htmlAux

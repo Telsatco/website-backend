@@ -6,13 +6,16 @@ const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const api = require('./routes/api')
 const email = require('./routes/email.js')
+const compression = require('compression')
+const helmet = require('helmet')
 // const config = require('./config.js')
 const app = express()
 
+app.use(helmet())
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
-
+app.use(compression())
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(logger('dev'))
@@ -20,7 +23,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
-
+// Manejo de peticiones
 app.use('/api', api)
 app.use('/email', email)
 app.get('*', (req, res) => {
